@@ -711,7 +711,10 @@
     burst(r.emoji);
   });
   $("grid").addEventListener("keydown", function (e) {
-    if (e.key === "Enter" && e.target.classList && e.target.classList.contains("score-input")) e.target.blur();
+    if (e.key === "Enter" && e.target.classList && e.target.classList.contains("score-input")) {
+      e.preventDefault();   // otherwise the same Enter press also clicks the pop-up's button and closes it
+      e.target.blur();
+    }
   });
   $("grid").addEventListener("focusout", function () {
     setTimeout(function () { if (!typingInTable()) render(); }, 0);
