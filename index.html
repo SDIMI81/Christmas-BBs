@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Christmas Scorecard 2026</title>
+<style>
+  :root {
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    color-scheme: light;
+    --bg: #0f2a22;
+    --bg-deep: #0a1d17;
+    --on-bg: #f6f0e0;
+    --on-bg-muted: #a9c0b4;
+    --surface: #fffaf0;
+    --ink: #1c2a24;
+    --muted: #66736b;
+    --line: #e6dcc4;
+    --cranberry: #c1273f;
+    --cranberry-ink: #ffffff;
+    --gold: #f2c14e;
+    --green: #2f8f5b;
+    --me-bg: #fde6ea;
+    --today-bg: #fff0c4;
+    --danger: #c1273f;
+    --focus: #1d6fd1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #08170f;
+      --bg-deep: #050f0a;
+      --surface: #14261f;
+      --ink: #eee9dd;
+      --muted: #9bab9f;
+      --line: #2b3f35;
+      --me-bg: #34191f;
+      --today-bg: #34300f;
+      --cranberry: #e0475e;
+      --focus: #6ab0ff;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #08170f;
+    --bg-deep: #050f0a;
+    --surface: #14261f;
+    --ink: #eee9dd;
+    --muted: #9bab9f;
+    --line: #2b3f35;
+    --me-bg: #34191f;
+    --today-bg: #34300f;
+    --cranberry: #e0475e;
+    --focus: #6ab0ff;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 12px); }
+  body {
+    margin: 0;
+    background: radial-gradient(120% 80% at 50% 0%, var(--bg) 0%, var(--bg-deep) 100%) fixed;
+    color: var(--on-bg);
+    font: 16px/1.5 "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+  }
+  .wrap { position: relative; z-index: 1; max-width: 1180px; margin: 0 auto; padding: 8px 16px 56px; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+  /* String of lights */
+  .lights { position: relative; z-index: 1; height: 30px; overflow: hidden; }
+  .lights::before, .lights::after {
+    content: ""; position: absolute; inset: 0;
+    background-repeat: repeat-x; background-size: 120px 30px;
+  }
+  .lights::before {
+    background-image:
+      radial-gradient(circle at 20px 17px, #ff4b5f 0 6px, transparent 7px),
+      radial-gradient(circle at 100px 17px, #46d17f 0 6px, transparent 7px),
+      linear-gradient(#000 0 0);
+    background-size: 120px 30px, 120px 30px, 100% 0;
+    animation: twinkle 2.2s ease-in-out infinite;
+  }
+  .lights::after {
+    background-image: radial-gradient(circle at 60px 17px, #ffd45c 0 6px, transparent 7px);
+    animation: twinkle 2.2s ease-in-out infinite reverse;
+  }
+  .lights i {
+    position: absolute; left: 0; right: 0; top: 7px; height: 2px;
+    background: rgba(255, 255, 255, .18);
+  }
+  @keyframes twinkle { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+
+  /* Snow */
+  #snow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .flake {
+    position: absolute; top: -12px; border-radius: 50%; background: #fff; opacity: .8;
+    animation: fall linear infinite;
+  }
+  @keyframes fall {
+    from { transform: translate3d(0, -5vh, 0); }
+    50% { transform: translate3d(22px, 50vh, 0); }
+    to { transform: translate3d(-10px, 108vh, 0); }
+  }
+
+  /* Vote links, always at the top */
+  .votebar { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; margin: 12px 0 4px; }
+  .votebar small { color: var(--on-bg-muted); }
+
+  h1 {
+    font: 800 clamp(2rem, 6vw, 3.2rem)/1.05 Georgia, "Iowan Old Style", serif;
+    letter-spacing: -0.02em; margin: 10px 0 6px; color: var(--on-bg);
+    text-shadow: 0 2px 0 rgba(0, 0, 0, .25);
+  }
+  .lede { color: var(--on-bg-muted); margin: 0 0 20px; max-width: 62ch; }
+
+  /* Hero & countdown */
+  .hero {
+    background: linear-gradient(160deg, #1b4a3a 0%, #12352a 100%);
+    border: 1px solid rgba(242, 193, 78, .35);
+    border-radius: 20px;
+    padding: 22px 24px 26px;
+    margin-bottom: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 8px;
+    background: repeating-linear-gradient(-45deg, #c1273f 0 12px, #fffaf0 12px 24px);
+  }
+  .hero-main { display: grid; grid-template-columns: auto 1fr; gap: 6px 24px; align-items: center; }
+  .door {
+    grid-row: span 2;
+    font: 800 clamp(3.6rem, 13vw, 6rem)/1 Georgia, serif;
+    color: var(--gold); text-align: center; min-width: 1.4ch;
+    background: rgba(0, 0, 0, .22); border: 2px solid var(--gold); border-radius: 16px;
+    padding: 6px 18px 10px;
+    box-shadow: 0 0 28px rgba(242, 193, 78, .25);
+  }
+  .hero h2 { margin: 0; font-size: 1.5rem; line-height: 1.2; color: var(--on-bg); }
+  .hero p { margin: 4px 0 0; color: var(--on-bg-muted); }
+  .actions { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+  .actions small { color: var(--on-bg-muted); }
+  .btn {
+    display: inline-block; background: var(--cranberry); color: var(--cranberry-ink);
+    text-decoration: none; font: inherit; font-weight: 700; padding: 12px 22px; border-radius: 999px;
+    border: 2px solid rgba(255, 255, 255, .85); cursor: pointer;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, .3);
+  }
+  .btn.alt { background: var(--green); }
+  .btn:hover { filter: brightness(1.1); }
+  .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0, 0, 0, .3); }
+
+  .count { margin-top: 18px; }
+  .count .label { color: var(--on-bg-muted); margin: 0 0 8px; }
+  .tiles { display: flex; flex-wrap: wrap; gap: 10px; }
+  .tile {
+    background: rgba(0, 0, 0, .25); border: 1px solid rgba(242, 193, 78, .4);
+    border-radius: 14px; padding: 10px 14px 8px; min-width: 4.8rem; text-align: center;
+  }
+  .tile b {
+    display: block; font: 800 2.1rem/1.1 Georgia, serif; color: var(--gold);
+    font-variant-numeric: tabular-nums;
+  }
+  .tile span { font-size: .85rem; color: var(--on-bg-muted); }
+  .count.big .tile { min-width: 5.6rem; padding: 14px 16px 10px; }
+  .count.big .tile b { font-size: clamp(2.4rem, 8vw, 3.6rem); }
+
+  @media (max-width: 560px) {
+    .hero-main { grid-template-columns: 1fr; text-align: center; }
+    .door { grid-row: auto; justify-self: center; }
+    .actions, .tiles { justify-content: center; }
+    .tile { min-width: 4.2rem; }
+    .votebar .btn { flex: 1 1 9rem; text-align: center; }
+  }
+
+  /* Advent doors */
+  .doors { display: grid; grid-template-columns: repeat(auto-fill, minmax(46px, 1fr)); gap: 8px; margin: 0 0 20px; }
+  .dbtn {
+    position: relative; aspect-ratio: 1; border-radius: 10px; font: 700 1rem Georgia, serif;
+    border: 2px solid transparent; cursor: pointer;
+  }
+  .dbtn.open { background: var(--gold); color: #3a2a00; }
+  .dbtn.locked { background: rgba(255, 255, 255, .07); color: var(--on-bg-muted); border-color: rgba(255, 255, 255, .15); }
+  .dbtn.today { border-color: #fff; animation: glow 2s ease-in-out infinite; }
+  .dbtn .tick {
+    position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; border-radius: 50%;
+    background: var(--green); color: #fff; font: 700 .7rem/18px system-ui; text-align: center;
+  }
+  @keyframes glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, .7); } 50% { box-shadow: 0 0 0 7px rgba(255, 255, 255, 0); } }
+
+  /* Voter picker */
+  .picker h3 { margin: 0 0 8px; font-size: 1.05rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .chip {
+    position: relative; font: 700 .95rem system-ui, sans-serif; padding: 7px 14px; border-radius: 999px;
+    border: 2px solid rgba(255, 255, 255, .25); background: rgba(255, 255, 255, .06); color: var(--on-bg);
+    cursor: pointer;
+  }
+  .chip[aria-pressed="true"] { background: var(--cranberry); border-color: #fff; color: #fff; }
+  .chip .done { margin-left: 6px; color: #7be3a4; }
+  #status { color: var(--on-bg-muted); font-size: .92rem; margin: 0 0 12px; min-height: 1.4em; }
+  #status.bad { color: #ff9aa8; }
+
+  /* Table */
+  .scroll {
+    overflow-x: auto; border-radius: 16px; background: var(--surface); color: var(--ink);
+    border-top: 8px solid transparent;
+    border-image: repeating-linear-gradient(-45deg, #c1273f 0 12px, #fffaf0 12px 24px) 8;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+  }
+  table { border-collapse: separate; border-spacing: 0; width: 100%; font-variant-numeric: tabular-nums; }
+  th, td { padding: 8px 8px; text-align: center; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  thead th { background: var(--surface); position: sticky; top: 0; z-index: 2; font-weight: 800; }
+  th.day {
+    position: sticky; left: 0; z-index: 1; text-align: left; background: var(--surface);
+    border-right: 1px solid var(--line); font-weight: 700; min-width: 5.4rem;
+  }
+  thead th.day { z-index: 3; }
+  th.me, td.me { background: var(--me-bg); }
+  thead th.me { color: var(--cranberry); }
+  tr.today th.day, tr.today td:not(.me) { background: var(--today-bg); }
+  tr.today th.day { box-shadow: inset 4px 0 0 var(--gold); }
+  tr.flash td, tr.flash th { animation: rowflash 1s; }
+  @keyframes rowflash { from { background: var(--gold); } }
+  td.avg { font-weight: 800; border-left: 1px solid var(--line); }
+  tfoot th, tfoot td { border-bottom: 0; font-weight: 800; border-top: 2px solid var(--line); }
+  td.empty { color: var(--muted); opacity: .6; }
+  td .lock { opacity: .55; }
+  .score-input {
+    width: 4.4rem; text-align: center; font: inherit; padding: 5px 4px; border-radius: 8px;
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+  }
+  .score-input.bad { border-color: var(--danger); animation: shake .25s; }
+  .star { color: #d9962b; margin-left: 4px; }
+  @keyframes shake { 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+
+  .summary { margin: 14px 2px 0; color: var(--on-bg-muted); }
+  .summary strong { color: var(--on-bg); }
+  footer { margin-top: 28px; font-size: .88rem; color: var(--on-bg-muted); }
+  footer select {
+    font: inherit; padding: 4px 8px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, .25);
+    background: rgba(255, 255, 255, .08); color: var(--on-bg);
+  }
+  footer option { color: #1c2a24; }
+
+  /* Toast & emoji burst */
+  #toast {
+    position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+    transform: translate(-50%, 30px); opacity: 0; pointer-events: none;
+    background: #fffaf0; color: #1c2a24; padding: 12px 22px; border-radius: 999px;
+    border: 3px solid var(--cranberry); font-weight: 700; max-width: calc(100vw - 32px);
+    text-align: center; transition: opacity .2s, transform .2s; z-index: 30;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
+  }
+  #toast.show { opacity: 1; transform: translate(-50%, 0); }
+  .pop {
+    position: fixed; bottom: calc(70px + env(safe-area-inset-bottom, 0px)); font-size: 1.7rem;
+    pointer-events: none; z-index: 29; animation: rise 1.5s ease-out forwards;
+  }
+  @keyframes rise { from { transform: translate(0, 0); opacity: 1; } to { transform: translate(var(--dx), -55vh); opacity: 0; } }
+
+  /* Pop-up for spicy and stingy votes */
+  #popup {
+    width: min(26rem, calc(100vw - 32px)); padding: 26px 24px 24px; text-align: center;
+    background: var(--surface); color: var(--ink);
+    border: 4px solid var(--cranberry); border-radius: 22px;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .55);
+  }
+  #popup.low { border-color: #4f8fc9; }
+  #popup::backdrop { background: rgba(5, 15, 10, .72); }
+  #popup[open] { animation: popin .28s cubic-bezier(.2, 1.4, .4, 1); }
+  @keyframes popin { from { transform: scale(.7) rotate(-4deg); opacity: 0; } }
+  #popup-emoji { font-size: 3.4rem; line-height: 1; }
+  #popup h2 { font: 800 1.6rem/1.15 Georgia, serif; margin: 10px 0 6px; text-wrap: balance; }
+  #popup p { margin: 0 0 18px; color: var(--muted); font-size: 1.05rem; }
+  #popup .score { color: var(--cranberry); font-weight: 800; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #snow, .pop { display: none; }
+    .lights::before, .lights::after, .dbtn.today, .score-input.bad, tr.flash td, tr.flash th, #popup[open] { animation: none; }
+    .lights::before, .lights::after { opacity: 1; }
+    #toast { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div id="snow" aria-hidden="true"></div>
+<div class="lights" aria-hidden="true"><i></i></div>
+
+<div class="wrap">
+  <nav class="votebar" aria-label="Today's entries">
+    <a class="btn" id="link-bb" href="https://boobychristmas.com/" target="_blank" rel="noopener noreferrer">Vote for BB</a>
+    <a class="btn alt" id="link-bt" href="https://booty-christmas.com/" target="_blank" rel="noopener noreferrer">Vote for BT</a>
+    <small>Opens in a new tab. Check who’s behind you first.</small>
+  </nav>
+
+  <h1>Christmas Scorecard 2026</h1>
+  <p class="lede">A new entry opens every day from 1 December. Take a look with the buttons above, then come back, pick your name and score it from 0 to 10. Decimals are fine, with a dot or a comma.</p>
+
+  <section class="hero" id="hero"></section>
+
+  <div class="doors" id="doors" role="group" aria-label="Advent doors, one per day"></div>
+
+  <div class="picker">
+    <h3 id="who-title">Who are you?</h3>
+    <div class="chips" id="chips" role="group" aria-labelledby="who-title"></div>
+  </div>
+  <p id="status">Loading votes…</p>
+
+  <div class="scroll"><table id="grid" aria-label="Scores by day and voter"></table></div>
+  <p class="summary" id="summary"></p>
+
+  <footer>
+    <label for="demo">Preview mode: </label>
+    <select id="demo"><option value="0">Off (real date)</option></select>
+    <span> Only you see it and nothing is saved.</span>
+  </footer>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<dialog id="popup" aria-labelledby="popup-title">
+  <div id="popup-emoji" aria-hidden="true"></div>
+  <h2 id="popup-title"></h2>
+  <p id="popup-msg"></p>
+  <button class="btn" id="popup-ok" type="button"></button>
+</dialog>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---- Settings you may want to change -------------------------------------
+  // Paste your Firebase Realtime Database address between the quotes, for example
+  // "https://my-project-default-rtdb.europe-west1.firebasedatabase.app"
+  var DB_URL = "https://christmas-bbs-default-rtdb.europe-west1.firebasedatabase.app";
+  var YEAR = 2026;
+  var DAYS = 25;
+  var SITES = [
+    { label: "Vote for BB", url: "https://boobychristmas.com/", cls: "btn" },
+    { label: "Vote for BT", url: "https://booty-christmas.com/", cls: "btn alt" }
+  ];
+  var HOT_ABOVE = 8;   // a score above this gets the "calm down" pop-up
+  var COLD_BELOW = 6;  // a score below this gets the "who hurt you" pop-up
+  var VOTERS = ["KK", "SD", "LB", "RC", "AP", "CA", "CP", "CAV", "SE", "NA", "PM", "GP", "GZ", "CG"];
+  // --------------------------------------------------------------------------
+
+  var REDUCED = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var DB = DB_URL.replace(/\/+$/, "");
+  var state = {
+    db: /^https:\/\//.test(DB), me: null,   // true once a database address is set
+    votes: {},                 // name -> { "1": 7.5, ... }
+    demoDay: 0, demoScores: {},
+    loaded: false
+  };
+  var $ = function (id) { return document.getElementById(id); };
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+  function pick(list) { return list[Math.floor(Math.random() * list.length)]; }
+
+  try { var saved = localStorage.getItem("xmas26-who"); if (VOTERS.indexOf(saved) !== -1) state.me = saved; } catch (e) {}
+
+  // ---- Dates ----------------------------------------------------------------
+  function realDay() {
+    var n = new Date(), y = n.getFullYear(), m = n.getMonth(), d = n.getDate();
+    if (y < YEAR || (y === YEAR && m < 11)) return 0;
+    if (y === YEAR && m === 11 && d <= DAYS) return d;
+    return DAYS + 1;
+  }
+  function currentDay() { return state.demoDay || realDay(); }
+  function countdownTarget() {          // next unlock, or the start
+    var rd = realDay();
+    if (rd === 0) return new Date(YEAR, 11, 1);
+    if (rd <= DAYS) return new Date(YEAR, 11, rd + 1);
+    return null;
+  }
+
+  // ---- Data helpers ---------------------------------------------------------
+  function cleanScores(raw) {
+    var out = {};
+    var s = raw && raw.scores && typeof raw.scores === "object" ? raw.scores : {};
+    Object.keys(s).forEach(function (k) {      // stored as d1, d2, ... d25
+      var d = Number(String(k).replace(/^d/, "")), v = s[k];
+      if (typeof v === "number" && d >= 1 && d <= DAYS && v >= 0 && v <= 10) out[d] = v;
+    });
+    return out;
+  }
+  function scoresOf(name) {
+    var real = state.votes[name] || {};
+    return (state.demoDay && name === state.me) ? Object.assign({}, real, state.demoScores) : real;
+  }
+  function mean(arr) { return arr.length ? arr.reduce(function (a, b) { return a + b; }, 0) / arr.length : null; }
+  function fmt(v) { return v === null ? "–" : v.toFixed(2); }
+
+  // ---- Saving (one write at a time) ----------------------------------------
+  var chain = Promise.resolve();
+  function saveScore(name, day, value) {   // value null = delete
+    if (state.demoDay) {
+      if (value === null) delete state.demoScores[day]; else state.demoScores[day] = value;
+      return;
+    }
+    if (!state.db) return;
+    chain = chain.then(function () {
+      var next = Object.assign({}, state.votes[name] || {});
+      if (value === null) delete next[day]; else next[day] = value;
+      state.votes[name] = next;
+      var url = DB + "/votes/" + encodeURIComponent(name) + "/scores/d" + day + ".json";
+      var req = value === null ? { method: "DELETE" } : { method: "PUT", body: JSON.stringify(value) };
+      return fetch(url, req).then(function (r) {
+        if (!r.ok) throw new Error("The database refused the vote (" + r.status + ").");
+      });
+    }).catch(function (e) {
+      setStatus("Could not save. " + (e && e.message ? e.message : "Please try again."), true);
+    });
+  }
+
+  // ---- Small UI helpers -----------------------------------------------------
+  var toastTimer;
+  function toast(msg) {
+    var t = $("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove("show"); }, 2800);
+  }
+  function setStatus(msg, bad) { var s = $("status"); s.textContent = msg; s.className = bad ? "bad" : ""; }
+  function burst(list) {
+    if (REDUCED) return;
+    for (var i = 0; i < 10; i++) {
+      var s = el("span", "pop", pick(list));
+      s.style.left = (30 + Math.random() * 40) + "vw";
+      s.style.setProperty("--dx", (Math.random() * 180 - 90) + "px");
+      s.style.animationDelay = (Math.random() * 0.25) + "s";
+      document.body.appendChild(s);
+      setTimeout(function (n) { n.remove(); }, 2000, s);
+    }
+  }
+  function voteLinks() {
+    return SITES.map(function (s) {
+      var a = el("a", s.cls, s.label);
+      a.href = s.url; a.target = "_blank"; a.rel = "noopener noreferrer";
+      return a;
+    });
+  }
+
+  // Scores above HOT_ABOVE or below COLD_BELOW get a pop-up; the rest get a toast.
+  var HOT = [
+    { icon: "🔥", title: "Easy, tiger", msg: "A {v}? Someone get {me} a glass of cold water.", ok: "I regret nothing" },
+    { icon: "🎅", title: "Santa is blushing", msg: "{v} out of 10. {me}, the elves have asked you to calm down.", ok: "Never" },
+    { icon: "📋", title: "HR has entered the chat", msg: "A {v} on December {day}. Your enthusiasm has been noted, logged and forwarded.", ok: "Worth it" },
+    { icon: "😈", title: "Naughty list: confirmed", msg: "{me} just dropped a {v}. Breathe. It is only December {day}.", ok: "I regret nothing" },
+    { icon: "🚒", title: "Fire brigade on its way", msg: "A {v}. The smoke alarm on your keyboard just went off.", ok: "Let it burn" }
+  ];
+  var COLD = [
+    { icon: "🥶", title: "Tough crowd", msg: "A {v}? {me}, who hurt you?", ok: "I stand by it" },
+    { icon: "💚", title: "The Grinch has logged in", msg: "{v} out of 10. Your heart is two sizes too small today.", ok: "Bah, humbug" },
+    { icon: "🪨", title: "Coal incoming", msg: "Santa saw that {v}. Expect a lump of coal and a strongly worded letter.", ok: "I stand by it" },
+    { icon: "👓", title: "Have you tried glasses?", msg: "A {v} on December {day}. An optician appointment has been booked for {me}.", ok: "I saw what I saw" },
+    { icon: "⚖️", title: "Harsh but noted", msg: "{v}. Somewhere a reindeer is crying, and it is your fault.", ok: "No remorse" }
+  ];
+  function fill(text, v, day) {
+    return text.replace(/\{v\}/g, String(v)).replace(/\{day\}/g, String(day)).replace(/\{me\}/g, state.me || "you");
+  }
+  function reaction(v, day) {
+    if (v > HOT_ABOVE) return { popup: pick(HOT), kind: "high", emoji: ["🔥", "🎅", "😈", "🌶️"] };
+    if (v < COLD_BELOW) return { popup: pick(COLD), kind: "low", emoji: ["🥶", "😬", "🪨", "❄️"] };
+    return { msg: pick(["Day " + day + ": vote saved ✓", "Locked in. No take-backs. (Okay, a few.)", "Noted by the judging panel 📝", "Vote saved. HR has not been informed."]), emoji: ["🎄", "❄️", "🎁", "⭐"] };
+  }
+  function showPopup(r, v, day) {
+    var dlg = $("popup"), p = r.popup;
+    $("popup-emoji").textContent = p.icon;
+    $("popup-title").textContent = p.title;
+    $("popup-msg").textContent = fill(p.msg, v, day);
+    $("popup-ok").textContent = p.ok;
+    dlg.className = r.kind;
+    try {
+      if (dlg.open) dlg.close();
+      dlg.showModal();
+    } catch (e) {
+      toast(p.title + ". " + fill(p.msg, v, day));   // very old browsers: fall back to the toast
+    }
+  }
+  $("popup-ok").addEventListener("click", function () { $("popup").close(); });
+  $("popup").addEventListener("click", function (e) { if (e.target === this) this.close(); });
+
+  // ---- Rendering ------------------------------------------------------------
+  var pendingRender = false;
+  function typingInTable() {
+    var a = document.activeElement;
+    return a && a.classList && a.classList.contains("score-input");
+  }
+
+  function render() {
+    if (typingInTable()) { pendingRender = true; return; }
+    pendingRender = false;
+
+    var cur = currentDay();
+    var dayAvg = {}, best = null;
+    for (var d = 1; d <= DAYS; d++) {
+      var vals = VOTERS.map(function (n) { return scoresOf(n)[d]; }).filter(function (x) { return typeof x === "number"; });
+      dayAvg[d] = mean(vals);
+      if (dayAvg[d] !== null && (best === null || dayAvg[d] > dayAvg[best])) best = d;
+    }
+    renderHero(cur, best, dayAvg);
+    renderDoors(cur);
+    renderChips(cur);
+    buildTable(dayAvg, best, cur);
+    renderSummary(cur, dayAvg, best);
+    tick();
+  }
+
+  function tiles(units) {
+    var box = el("div", "tiles");
+    units.forEach(function (u) {
+      var t = el("div", "tile"), b = el("b", "", "00");
+      b.dataset.unit = u[0];
+      t.appendChild(b); t.appendChild(el("span", "", u[1]));
+      box.appendChild(t);
+    });
+    return box;
+  }
+  var UNITS_ALL = [["d", "days"], ["h", "hours"], ["m", "minutes"], ["s", "seconds"]];
+  var UNITS_DAY = [["h", "hours"], ["m", "minutes"], ["s", "seconds"]];
+
+  function renderHero(cur, best, dayAvg) {
+    var hero = $("hero");
+    hero.textContent = "";
+
+    if (cur === 0) {
+      var wrap = el("div", "count big");
+      wrap.appendChild(el("h2", "", "The first entry opens on 1 December"));
+      wrap.firstChild.style.marginBottom = "14px";
+      wrap.appendChild(tiles(UNITS_ALL));
+      hero.appendChild(wrap);
+      return;
+    }
+
+    var main = el("div", "hero-main"), box = el("div");
+    if (cur <= DAYS) {
+      main.appendChild(el("div", "door", String(cur)));
+      box.appendChild(el("h2", "", "Today’s entry is live"));
+      box.appendChild(el("p", "", "December " + cur + ". Take a look, then score it below. Missed a day? You can still fill it in."));
+      var actions = el("div", "actions");
+      voteLinks().forEach(function (a) { actions.appendChild(a); });
+      box.appendChild(actions);
+      main.appendChild(box);
+      hero.appendChild(main);
+
+      if (!state.demoDay) {
+        var c = el("div", "count");
+        c.appendChild(el("p", "label", cur < DAYS ? "Tomorrow’s entry opens in" : "That was the last entry. Final results in"));
+        c.appendChild(tiles(UNITS_DAY));
+        hero.appendChild(c);
+      }
+    } else {
+      main.appendChild(el("div", "door", "🎄"));
+      box.appendChild(el("h2", "", "That’s a wrap. Merry Christmas!"));
+      box.appendChild(el("p", "", best ? "The winner is December " + best + " with an average of " + dayAvg[best].toFixed(2) + ". Scores can still be edited." : "All 25 days are open."));
+      main.appendChild(box);
+      hero.appendChild(main);
+    }
+  }
+
+  function renderDoors(cur) {
+    var box = $("doors");
+    box.textContent = "";
+    for (var d = 1; d <= DAYS; d++) {
+      var open = d <= cur;
+      var b = el("button", "dbtn " + (open ? "open" : "locked") + (d === cur ? " today" : ""), String(d));
+      b.type = "button"; b.dataset.day = d;
+      b.setAttribute("aria-label", open ? "December " + d + ", open" : "December " + d + ", locked");
+      if (open && state.me && typeof scoresOf(state.me)[d] === "number") b.appendChild(el("span", "tick", "✓"));
+      box.appendChild(b);
+    }
+  }
+
+  function renderChips(cur) {
+    var box = $("chips");
+    box.textContent = "";
+    VOTERS.forEach(function (n) {
+      var b = el("button", "chip", n);
+      b.type = "button"; b.dataset.name = n;
+      b.setAttribute("aria-pressed", n === state.me ? "true" : "false");
+      if (cur >= 1 && cur <= DAYS && typeof scoresOf(n)[cur] === "number") {
+        var ok = el("span", "done", "✓"); ok.title = "Voted today"; box.appendChild(b); b.appendChild(ok);
+      } else box.appendChild(b);
+    });
+  }
+
+  function buildTable(dayAvg, best, cur) {
+    var table = $("grid");
+    table.textContent = "";
+
+    var thead = el("thead"), hr = el("tr");
+    var h0 = el("th", "day", "Day"); h0.scope = "col"; hr.appendChild(h0);
+    VOTERS.forEach(function (n) {
+      var th = el("th", n === state.me ? "me" : "", n); th.scope = "col"; hr.appendChild(th);
+    });
+    var ha = el("th", "avg", "Average"); ha.scope = "col"; hr.appendChild(ha);
+    thead.appendChild(hr); table.appendChild(thead);
+
+    var tbody = el("tbody");
+    for (var d = 1; d <= DAYS; d++) {
+      var tr = el("tr", d === cur ? "today" : ""); tr.id = "row-" + d;
+      var th = el("th", "day", "Dec " + d); th.scope = "row";
+      if (d === best) { var s = el("span", "star", "★"); s.title = "Highest average so far"; th.appendChild(s); }
+      tr.appendChild(th);
+
+      VOTERS.forEach(function (n) {
+        var mine = n === state.me;
+        var td = el("td", mine ? "me" : "");
+        var val = scoresOf(n)[d];
+        if (mine) {
+          if (d <= cur) {
+            var inp = el("input", "score-input");
+            inp.type = "text"; inp.inputMode = "decimal"; inp.autocomplete = "off";
+            inp.id = "score-" + d;
+            inp.setAttribute("aria-label", n + ", score for December " + d);
+            inp.dataset.day = d;
+            inp.value = typeof val === "number" ? String(val) : "";
+            td.appendChild(inp);
+          } else {
+            var lock = el("span", "lock", "🔒"); lock.title = "Opens on December " + d; td.appendChild(lock);
+          }
+        } else if (typeof val === "number") {
+          td.textContent = String(val);
+        } else {
+          td.className += " empty"; td.textContent = "–";
+        }
+        tr.appendChild(td);
+      });
+      tr.appendChild(el("td", "avg", fmt(dayAvg[d])));
+      tbody.appendChild(tr);
+    }
+    table.appendChild(tbody);
+
+    var tfoot = el("tfoot"), fr = el("tr");
+    var f0 = el("th", "day", "Average"); f0.scope = "row"; fr.appendChild(f0);
+    var all = [];
+    VOTERS.forEach(function (n) {
+      var sc = scoresOf(n);
+      var vals = Object.keys(sc).map(function (k) { return sc[k]; });
+      vals.forEach(function (x) { all.push(x); });
+      fr.appendChild(el("td", n === state.me ? "me" : "", fmt(mean(vals))));
+    });
+    fr.appendChild(el("td", "avg", fmt(mean(all))));
+    tfoot.appendChild(fr); table.appendChild(tfoot);
+  }
+
+  function renderSummary(cur, dayAvg, best) {
+    var parts = [];
+    var count = 0;
+    VOTERS.forEach(function (n) { count += Object.keys(scoresOf(n)).length; });
+    parts.push(count + (count === 1 ? " score" : " scores") + " so far.");
+    if (cur >= 1 && cur <= DAYS) {
+      var waiting = VOTERS.filter(function (n) { return typeof scoresOf(n)[cur] !== "number"; });
+      parts.push(waiting.length ? "Still to vote today: " + waiting.join(", ") + "." : "Everyone has voted today 🎉");
+    }
+    if (best) parts.push("Current favourite: December " + best + " (" + dayAvg[best].toFixed(2) + ").");
+    $("summary").textContent = parts.join(" ");
+  }
+
+  // ---- Countdown (updates only the numbers, once a second) ------------------
+  var lastReal = realDay();
+  function tick() {
+    var rd = realDay();
+    if (rd !== lastReal) { lastReal = rd; render(); return; }
+    var target = countdownTarget();
+    if (!target) return;
+    var ms = target - new Date();
+    if (ms <= 0) { lastReal = -1; return; }
+    var s = Math.floor(ms / 1000);
+    var parts = { d: Math.floor(s / 86400), h: Math.floor(s % 86400 / 3600), m: Math.floor(s % 3600 / 60), s: s % 60 };
+    var nodes = document.querySelectorAll("[data-unit]");
+    for (var i = 0; i < nodes.length; i++) {
+      var v = parts[nodes[i].dataset.unit];
+      var txt = nodes[i].dataset.unit === "d" ? String(v) : (v < 10 ? "0" + v : String(v));
+      if (nodes[i].textContent !== txt) nodes[i].textContent = txt;
+    }
+  }
+  setInterval(tick, 1000);
+
+  // ---- Events ---------------------------------------------------------------
+  $("grid").addEventListener("change", function (e) {
+    var inp = e.target;
+    if (!inp.classList || !inp.classList.contains("score-input") || !state.me) return;
+    var day = Number(inp.dataset.day);
+    if (day > currentDay()) return;
+    var raw = inp.value.trim().replace(",", ".");
+
+    if (raw === "") { saveScore(state.me, day, null); return; }
+    var v = Number(raw);
+    if (!isFinite(v) || v < 0 || v > 10) {
+      inp.classList.add("bad");
+      toast("Use a number from 0 to 10");
+      var prev = scoresOf(state.me)[day];
+      setTimeout(function () { inp.classList.remove("bad"); inp.value = typeof prev === "number" ? String(prev) : ""; }, 600);
+      return;
+    }
+    v = Math.round(v * 100) / 100;
+    inp.value = String(v);
+    saveScore(state.me, day, v);
+    var r = reaction(v, day);
+    if (r.popup) showPopup(r, v, day); else toast(r.msg);
+    burst(r.emoji);
+  });
+  $("grid").addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && e.target.classList && e.target.classList.contains("score-input")) e.target.blur();
+  });
+  $("grid").addEventListener("focusout", function () {
+    setTimeout(function () { if (!typingInTable()) render(); }, 0);
+  });
+
+  $("chips").addEventListener("click", function (e) {
+    var b = e.target.closest(".chip");
+    if (!b) return;
+    state.me = b.dataset.name;
+    state.demoScores = {};
+    try { localStorage.setItem("xmas26-who", state.me); } catch (err) {}
+    if (state.loaded || !state.db) setStatus(state.db ? "Hi " + state.me + "! Your column is highlighted. Type your score in the boxes." : "Voting is not connected yet.", !state.db);
+    render();
+  });
+
+  $("doors").addEventListener("click", function (e) {
+    var b = e.target.closest(".dbtn");
+    if (!b) return;
+    var d = Number(b.dataset.day);
+    if (d > currentDay()) { toast("Door " + d + " opens on December " + d + " 🔒"); return; }
+    if (!state.me) { toast("Pick your name first 👇"); $("chips").scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "center" }); return; }
+    var row = $("row-" + d);
+    if (!row) return;
+    row.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "center" });
+    row.classList.add("flash");
+    setTimeout(function () { row.classList.remove("flash"); }, 1100);
+    var inp = row.querySelector(".score-input");
+    if (inp) inp.focus({ preventScroll: true });
+  });
+
+  var sel = $("demo");
+  for (var i = 1; i <= DAYS + 1; i++) {
+    var o = document.createElement("option");
+    o.value = String(i);
+    o.textContent = i <= DAYS ? "Pretend it is December " + i : "Pretend it is after Christmas";
+    sel.appendChild(o);
+  }
+  sel.addEventListener("change", function () {
+    state.demoDay = Number(sel.value);
+    state.demoScores = {};
+    render();
+  });
+
+  // ---- Snow -----------------------------------------------------------------
+  if (!REDUCED) {
+    var snow = $("snow");
+    for (var f = 0; f < 38; f++) {
+      var fl = el("span", "flake"), size = 3 + Math.random() * 5;
+      fl.style.left = (Math.random() * 100) + "vw";
+      fl.style.width = fl.style.height = size + "px";
+      fl.style.opacity = String(0.35 + Math.random() * 0.5);
+      fl.style.animationDuration = (9 + Math.random() * 12) + "s";
+      fl.style.animationDelay = (-Math.random() * 20) + "s";
+      snow.appendChild(fl);
+    }
+  }
+
+  // ---- Start up -------------------------------------------------------------
+  render();
+
+  function loadVotes() {
+    return fetch(DB + "/votes.json", { cache: "no-store" }).then(function (r) {
+      if (!r.ok) throw new Error(String(r.status));
+      return r.json();
+    }).then(function (data) {
+      var m = {};
+      data = data || {};
+      VOTERS.forEach(function (n) { if (data[n]) m[n] = cleanScores(data[n]); });
+      state.votes = m;
+      if (!state.loaded) {
+        state.loaded = true;
+        setStatus(state.me ? "Hi " + state.me + "! Your column is highlighted." : "Pick your name above to start voting.", false);
+      }
+      render();
+    }).catch(function (err) {
+      if (!state.loaded) setStatus("Could not load votes (" + (err && err.message ? err.message : "error") + "). Check your connection.", true);
+    });
+  }
+
+  (function init() {
+    if (!state.db) {
+      setStatus("Voting is not connected yet. The database address is missing from this page.", true);
+      return;
+    }
+    loadVotes();
+
+    // Live updates: the database pushes an event whenever anyone votes.
+    var reloadTimer;
+    function reload() { clearTimeout(reloadTimer); reloadTimer = setTimeout(loadVotes, 200); }
+    try {
+      var es = new EventSource(DB + "/votes.json");
+      es.addEventListener("put", reload);
+      es.addEventListener("patch", reload);
+    } catch (e) {}
+    setInterval(loadVotes, 30000);   // safety net if live updates drop
+  })();
+})();
+</script>
+</body>
+</html>
