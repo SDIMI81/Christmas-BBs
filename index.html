@@ -75,6 +75,16 @@
     background: radial-gradient(circle at 50% 58%, #c2415d 0 2.5px, transparent 3px), radial-gradient(circle at 35% 30%, #ffe3ea 0 3px, #ff8fab 4px);
   }
 
+  /* Music switch, top right. The player itself sits off screen. */
+  #music {
+    position: fixed; z-index: 5; top: calc(40px + env(safe-area-inset-top, 0px)); right: 12px;
+    padding: 7px 14px; border-radius: 999px; cursor: pointer; font-weight: 800; font-size: .9rem;
+    background: rgba(6, 20, 15, .85); color: var(--text); border: 2px solid var(--gold);
+  }
+  #music[aria-pressed="true"] { background: var(--gold); color: #3a2a00; }
+  #music a { color: inherit; }
+  #yt-wrap { position: fixed; left: -9999px; top: 0; width: 200px; height: 113px; overflow: hidden; }
+
   /* Cameo: a character pops up from a bottom corner with a one-liner */
   #cameo {
     position: fixed; z-index: 3; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); left: 14px;
@@ -357,6 +367,8 @@
   <text x="61" y="201" font-size="12" font-weight="700" text-anchor="middle" fill="#1d2b24" font-family="Nunito, sans-serif">To: the jury</text></g>
   <text x="240" y="188" font-size="30" text-anchor="middle">🍑</text>
 </svg>
+<button id="music" type="button" aria-pressed="false">🎵 Music</button>
+<div id="yt-wrap" aria-hidden="true"><div id="yt"></div></div>
 <div id="cameo" aria-hidden="true"><span class="who"></span><span class="bubble"></span></div>
 <div id="snow" aria-hidden="true"></div>
 <div class="lights" aria-hidden="true"><i></i></div>
@@ -474,7 +486,7 @@
   function countdownTarget() {
     var rd = realDay();
     if (rd === 0) return new Date(YEAR, 11, 1);
-    if (rd <= DAYS) return new Date(YEAR, 11, rd + 1);
+    if (rd < 25) return new Date(YEAR, 11, 25);   // from 1 December the countdown runs to Christmas Day
     return null;
   }
 
@@ -681,10 +693,13 @@
       box.appendChild(links);
       main.appendChild(box);
       hero.appendChild(main);
-      if (!state.demoDay) {
-        var c = el("div", "count");
-        c.appendChild(el("p", "label", cur < DAYS ? "Tomorrow’s doors open in" : "That was the last door. Final results in"));
-        c.appendChild(tiles(UNITS_DAY));
+      var c = el("div", "count");
+      if (cur >= 25) {
+        c.appendChild(el("p", "label", "🎄 It’s Christmas Day. Merry Christmas, jury!"));
+        hero.appendChild(c);
+      } else if (!state.demoDay) {
+        c.appendChild(el("p", "label", "🎄 Christmas arrives in"));
+        c.appendChild(tiles(UNITS_ALL));
         hero.appendChild(c);
       }
     } else {
@@ -1049,6 +1064,54 @@
       setTimeout(showCameo, 28000 + Math.random() * 22000);
     }
     setTimeout(showCameo, 7000);
+  })();
+
+  // ---- Background music (YouTube player, starts on the visitor's first click or tap) ----
+  (function musicSetup() {
+    var VIDEO = "TFsZy9t-qDc", btn = $("music");
+    var m = { player: null, ready: false, on: false, pending: false, want: true, failed: false };
+    try { if (localStorage.getItem("xmas26-music") === "off") m.want = false; } catch (e) {}
+    function label() {
+      if (m.failed) return;
+      btn.textContent = m.on ? "🎵 Music on" : (m.want ? "🎵 Tap for music" : "🔇 Music off");
+      btn.setAttribute("aria-pressed", m.on ? "true" : "false");
+    }
+    function play() { if (m.ready) m.player.playVideo(); else m.pending = true; }
+    function remember() { try { localStorage.setItem("xmas26-music", m.want ? "on" : "off"); } catch (e) {} }
+    window.onYouTubeIframeAPIReady = function () {
+      m.player = new YT.Player("yt", {
+        width: 200, height: 113, videoId: VIDEO, host: "https://www.youtube-nocookie.com",
+        playerVars: { autoplay: 0, loop: 1, playlist: VIDEO, controls: 0, playsinline: 1 },
+        events: {
+          onReady: function () { m.ready = true; m.player.setVolume(35); if (m.want) play(); },
+          onStateChange: function (e) { m.on = e.data === 1; if (e.data === 0) m.player.playVideo(); label(); },
+          onError: function () {          // the video owner may block playback on other sites
+            m.failed = true; btn.textContent = "";
+            var a = el("a", "", "🎵 Open the song on YouTube");
+            a.href = "https://www.youtube.com/watch?v=" + VIDEO; a.target = "_blank"; a.rel = "noopener noreferrer";
+            btn.appendChild(a);
+          }
+        }
+      });
+    };
+    var s = document.createElement("script");
+    s.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(s);
+    btn.addEventListener("click", function () {
+      if (m.failed) return;
+      if (m.on) { m.want = false; m.player.pauseVideo(); } else { m.want = true; play(); }
+      remember(); label();
+    });
+    // Browsers only allow sound after the visitor interacts with the page.
+    function firstGesture(e) {
+      if (btn.contains(e.target)) return;
+      document.removeEventListener("pointerdown", firstGesture, true);
+      document.removeEventListener("keydown", firstGesture, true);
+      if (m.want && !m.on) play();
+    }
+    document.addEventListener("pointerdown", firstGesture, true);
+    document.addEventListener("keydown", firstGesture, true);
+    label();
   })();
 
   // ---- Start up -------------------------------------------------------------
