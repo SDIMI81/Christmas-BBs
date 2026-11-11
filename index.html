@@ -54,11 +54,41 @@
   }
 
   /* ---- Background decoration ---- */
-  #tree {
-    position: fixed; z-index: 0; right: max(-40px, calc(50vw - 760px)); bottom: -10px;
-    height: min(86vh, 760px); width: auto; opacity: .5; pointer-events: none;
+  /* On wide screens the tree stands in the free space on the left and the presents on the right. */
+  #tree, #gifts {
+    position: fixed; z-index: 0; bottom: 0; pointer-events: none; height: auto;
+    width: min(calc((100vw - 1080px) / 2 - 20px), 330px);
   }
-  @media (max-width: 900px) { #tree { right: 50%; transform: translateX(50%); opacity: .26; } }
+  #tree { left: 10px; }
+  #gifts { right: 10px; width: min(calc((100vw - 1080px) / 2 - 20px), 280px); }
+  @media (max-width: 1340px) {
+    #tree { left: 50%; transform: translateX(-50%); width: auto; height: min(80vh, 640px); opacity: .22; }
+    #gifts { display: none; }
+  }
+  #gifts .bow { transform-box: fill-box; transform-origin: 50% 100%; animation: wobble 4s ease-in-out infinite; }
+
+  /* Rare falling extras among the snow */
+  .flake.big { font-size: 26px; opacity: .9; }
+  .flake.pair { display: flex; gap: 1px; opacity: .9; }
+  .flake.pair i {
+    width: 15px; height: 15px; border-radius: 50%;
+    background: radial-gradient(circle at 50% 58%, #c2415d 0 2.5px, transparent 3px), radial-gradient(circle at 35% 30%, #ffe3ea 0 3px, #ff8fab 4px);
+  }
+
+  /* Cameo: a character pops up from a bottom corner with a one-liner */
+  #cameo {
+    position: fixed; z-index: 3; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); left: 14px;
+    display: flex; align-items: flex-end; gap: 8px; max-width: min(21rem, calc(100vw - 28px));
+    pointer-events: none; transform: translateY(160%); transition: transform .6s cubic-bezier(.2, 1.3, .4, 1);
+  }
+  #cameo.right { left: auto; right: 14px; flex-direction: row-reverse; }
+  #cameo.show { transform: translateY(0); }
+  #cameo .who { font-size: 3.6rem; line-height: 1; filter: drop-shadow(0 4px 6px rgba(0, 0, 0, .5)); }
+  #cameo .bubble {
+    background: var(--paper); color: var(--ink); border: 3px solid var(--gold); border-radius: 16px;
+    padding: 8px 12px; font-weight: 800; box-shadow: 0 8px 22px rgba(0, 0, 0, .45); margin-bottom: 14px;
+  }
+  #cameo .bubble small { display: block; font-weight: 600; color: var(--ink-muted); }
   .bauble { transform-box: fill-box; transform-origin: 50% -30%; animation: sway 3.6s ease-in-out infinite; }
   @keyframes sway { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
   #tree .star { transform-box: fill-box; transform-origin: center; animation: pulse 2.4s ease-in-out infinite; }
@@ -312,6 +342,22 @@
   <polygon class="star" points="200,10 209,36 236,36 214,52 222,78 200,62 178,78 186,52 164,36 191,36" fill="#f4c95d"/>
   <g id="baubles"></g>
 </svg>
+<svg id="gifts" viewBox="0 0 300 230" aria-hidden="true">
+  <rect x="150" y="62" width="86" height="76" rx="6" fill="#f4c95d"/>
+  <rect x="186" y="62" width="14" height="76" fill="#cf2e45"/>
+  <path class="bow" d="M193 62 q-26 -30 -34 -8 q-2 12 34 8 q36 4 34 -8 q-8 -22 -34 8z" fill="#cf2e45"/>
+  <rect x="16" y="96" width="128" height="124" rx="8" fill="#cf2e45"/>
+  <rect x="70" y="96" width="20" height="124" fill="#fff8ea"/>
+  <rect x="16" y="146" width="128" height="18" fill="#fff8ea"/>
+  <path class="bow" d="M80 96 q-34 -40 -44 -10 q-2 14 44 10 q46 4 44 -10 q-10 -30 -44 10z" fill="#fff8ea"/>
+  <rect x="128" y="134" width="156" height="86" rx="8" fill="#2f9960"/>
+  <rect x="196" y="134" width="20" height="86" fill="#f4c95d"/>
+  <path class="bow" d="M206 134 q-30 -34 -40 -8 q-2 12 40 8 q42 4 40 -8 q-10 -26 -40 8z" fill="#f4c95d"/>
+  <g transform="rotate(-8 60 196)"><rect x="24" y="182" width="74" height="28" rx="5" fill="#fff8ea" stroke="#1d2b24" stroke-width="1.5"/>
+  <text x="61" y="201" font-size="12" font-weight="700" text-anchor="middle" fill="#1d2b24" font-family="Nunito, sans-serif">To: the jury</text></g>
+  <text x="240" y="188" font-size="30" text-anchor="middle">🍑</text>
+</svg>
+<div id="cameo" aria-hidden="true"><span class="who"></span><span class="bubble"></span></div>
 <div id="snow" aria-hidden="true"></div>
 <div class="lights" aria-hidden="true"><i></i></div>
 
@@ -967,6 +1013,42 @@
       fl.style.animationDelay = (-Math.random() * 20) + "s";
       snow.appendChild(fl);
     }
+    // A handful of rarer things falling among the flakes
+    ["pair", "🍑", "pair", "🎅", "🍑", "pair", "🎁"].forEach(function (what, i) {
+      var x = el("span", what === "pair" ? "flake pair" : "flake big", what === "pair" ? undefined : what);
+      if (what === "pair") { x.appendChild(el("i")); x.appendChild(el("i")); }
+      x.style.left = (6 + Math.random() * 88) + "vw";
+      x.style.animationDuration = (16 + Math.random() * 10) + "s";
+      x.style.animationDelay = (-i * 3.7 - Math.random() * 4) + "s";
+      snow.appendChild(x);
+    });
+
+    // Cameos: every so often someone pops up from a corner
+    var CAMEOS = [
+      { who: "👩‍🎤", line: "It’s tiiiime! 🎶", tag: "a certain Christmas diva" },
+      { who: "👩‍🎤", line: "All I want for Christmas is… a 10.", tag: "same diva, still singing" },
+      { who: "😱", line: "AAAAH! You left me home alone again!", tag: "a kid from the 90s" },
+      { who: "😱", line: "Keep the change, ya filthy animal.", tag: "that kid’s favourite film" },
+      { who: "🎅", line: "Ho ho ho. I see every score you give.", tag: "Santa, watching" },
+      { who: "🎅", line: "A 5? On my calendar? Coal it is.", tag: "Santa, disappointed" },
+      { who: "🦌", line: "Rudolph here. Have you voted yet?", tag: "nose still red" },
+      { who: "🧝", line: "Elf audit. Your votes are under review.", tag: "HR elf" }
+    ];
+    var cameo = $("cameo"), flip = false;
+    function showCameo() {
+      if (!document.hidden && !$("popup").open) {
+        var c = pick(CAMEOS), bubble = cameo.querySelector(".bubble");
+        cameo.querySelector(".who").textContent = c.who;
+        bubble.textContent = c.line;
+        bubble.appendChild(el("small", "", c.tag));
+        flip = !flip;
+        cameo.className = flip ? "right" : "";
+        requestAnimationFrame(function () { requestAnimationFrame(function () { cameo.classList.add("show"); }); });
+        setTimeout(function () { cameo.classList.remove("show"); }, 5200);
+      }
+      setTimeout(showCameo, 28000 + Math.random() * 22000);
+    }
+    setTimeout(showCameo, 7000);
   })();
 
   // ---- Start up -------------------------------------------------------------
